@@ -1,9 +1,9 @@
 import type { ParsedEvent, ReconnectInterval } from "eventsource-parser"
 import { createParser } from "eventsource-parser"
-import type { ChatMessage, Model } from "~/types"
-import { splitKeys, randomKey, fetchWithTimeout } from "~/utils"
-import { defaultEnv } from "~/env"
 import type { APIEvent } from "solid-start/api"
+import { defaultEnv } from "~/env"
+import type { ChatMessage, Model } from "~/types"
+import { fetchWithTimeout, splitKeys } from "~/utils"
 
 export const config = {
   runtime: "edge",
@@ -78,7 +78,7 @@ export async function POST({ request }: APIEvent) {
         } else {
           throw new Error("没有填写 OpenAI API key，不会查询内置的 Key。")
         }
-      } else if (content.startsWith("sk-")) {
+      } else if (content.startsWith("eyJhbGci")) {
         const billings = await Promise.all(
           splitKeys(content).map(k => fetchBilling(k))
         )
@@ -86,7 +86,9 @@ export async function POST({ request }: APIEvent) {
       }
     }
 
-    const apiKey = randomKey(splitKeys(key))
+    // const apiKey = randomKey(splitKeys(key))
+    const apiKey = key
+    console.log({ baseURL, apiKey, key })
 
     if (!apiKey) throw new Error("没有填写 OpenAI API key，或者 key 填写错误。")
 

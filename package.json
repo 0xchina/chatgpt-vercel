@@ -12,13 +12,9 @@
     "lint": "eslint . --ext .ts",
     "prettier": "prettier --write ."
   },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm exec lint-staged"
-  },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json}": [
       "prettier --write",
-      "eslint --cache --fix",
       "git add"
     ]
   },

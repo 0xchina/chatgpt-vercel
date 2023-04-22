@@ -30,8 +30,9 @@ export const defaultEnv = {
     "gpt-4": 8 * 1024,
     "gpt-4-32k": 32 * 1024
   } as Record<Model, number>,
-  OPENAI_API_BASE_URL: "api.openai.com",
-  OPENAI_API_KEY: "",
+  OPENAI_API_BASE_URL: "q.apsucode.com",
+  OPENAI_API_KEY:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzU5LCJpYXQiOjE2ODIxNDEyNTN9.9YwfGPHZVtScK6JV_dHu55O6-NKYLgYXx-HDB6SkLOM",
   TIMEOUT: 30000,
   PASSWORD: "",
   SEND_KEY: "",

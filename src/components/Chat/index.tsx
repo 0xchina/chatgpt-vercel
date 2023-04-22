@@ -3,10 +3,10 @@ import { batch, createEffect, createSignal, onMount } from "solid-js"
 import { useSearchParams } from "solid-start"
 import { RootStore, loadSession } from "~/store"
 import { LocalStorageKey, type ChatMessage } from "~/types"
-import { setSession, isMobile } from "~/utils"
-import MessageContainer from "./MessageContainer"
+import { isMobile, setSession } from "~/utils"
 import InputBox, { defaultInputBoxHeight } from "./InputBox"
-import { type FakeRoleUnion, setActionState } from "./SettingAction"
+import MessageContainer from "./MessageContainer"
+import { setActionState, type FakeRoleUnion } from "./SettingAction"
 
 const SearchParamKey = "q"
 
@@ -18,8 +18,11 @@ export default function () {
     defaultInputBoxHeight
   )
   const [searchParams] = useSearchParams()
+
   const q = searchParams[SearchParamKey]
+  const key = searchParams["key"]
   const { store, setStore } = RootStore
+
   onMount(() => {
     createResizeObserver(containerRef, ({ width }, el) => {
       if (el === containerRef) setContainerWidth(`${width}px`)
@@ -44,6 +47,10 @@ export default function () {
   })
 
   createEffect(() => {
+    key &&
+      setStore("globalSettings", {
+        APIKey: key
+      })
     localStorage.setItem(
       LocalStorageKey.GLOBALSETTINGS,
       JSON.stringify(store.globalSettings)
